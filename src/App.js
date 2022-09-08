@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import Cart from "./components/Cart/Cart";
+import Favorite from "./components/Favorite/Favorite";
+import Nav from "./components/Header/MyAppBar";
+import Products from "./components/Products/Products";
+
+export const CartContext = createContext()
+export const FavoriteContext = createContext()
 
 function App() {
+  
+
+  const [cart, setCart] = useState([])
+  const [favorite, setFavorite] = useState([])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <FavoriteContext.Provider value={{favorite, setFavorite}}>
+        <CartContext.Provider value={{cart, setCart}}>
+          <Nav></Nav>
+          <Routes>
+            <Route path="/" element={<Products/>} />
+            <Route path="/products" element={<Products/>} />
+            <Route path="/favorite" element={<Favorite/>} />
+            <Route path="/cart" element={<Cart/>} />
+          </Routes>
+        </CartContext.Provider>
+      </FavoriteContext.Provider>
     </div>
   );
 }
